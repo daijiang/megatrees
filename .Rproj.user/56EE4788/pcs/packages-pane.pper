@@ -1,0 +1,7 @@
+{
+    "installOptions": {
+        "installFromRepository": true,
+        "libraryPath": "/home/dli/R",
+        "installDependencies": true
+    }
+}

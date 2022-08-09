@@ -1,0 +1,27 @@
+{
+    "id": "ED929AD9",
+    "path": "/media/dli/Data/li_projects/megatrees/data-raw/mega_trees_download.R",
+    "project_path": "data-raw/mega_trees_download.R",
+    "type": "r_source",
+    "hash": "2036595895",
+    "contents": "",
+    "dirty": false,
+    "created": 1660060529994.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "125,0",
+        "scrollLine": "100",
+        "marks": "<:177,0\n>:179,16"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1660078177,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1660078177125,
+    "read_only": false,
+    "read_only_alternatives": []
+}
