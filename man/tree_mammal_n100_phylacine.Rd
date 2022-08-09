@@ -8,7 +8,7 @@
 A phylogeny with class "multiPhylo". It is also a list. Compare with a normal phylo object, each phylogeny has another data frame `genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
 }
 \source{
-<https://github.com/MegaPast2Future/PHYLACINE_1.2/blob/master/Data/Phylogenies/Complete_phylogeny.nex>
+https://github.com/MegaPast2Future/PHYLACINE_1.2/blob/master/Data/Phylogenies/Complete_phylogeny.nex
 }
 \usage{
 tree_mammal_n100_phylacine

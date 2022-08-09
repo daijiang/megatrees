@@ -8,7 +8,7 @@
 A phylogeny with class "multiPhylo". It is also a list, with the first to be the "consensus" tree (the other 99 are posterior phylogenies). Compare with a normal phylo object, each phylogeny has another data frame `genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
 }
 \source{
-<http://vertlife.org/data/amphibians/>
+http://vertlife.org/data/amphibians/
 }
 \usage{
 tree_amphibian_n100

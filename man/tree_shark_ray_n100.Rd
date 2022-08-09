@@ -8,7 +8,7 @@
 A phylogeny with class "multiPhylo". It is also a list. Compare with a normal phylo object, each phylogeny has another data frame `genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
 }
 \source{
-<https://vertlife.org/data/sharks//>
+https://vertlife.org/data/sharks//
 }
 \usage{
 tree_shark_ray_n100

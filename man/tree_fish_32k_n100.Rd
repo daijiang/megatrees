@@ -8,7 +8,7 @@
 A phylogeny with class "multiPhylo". It is also a list. Each phylogeny also has another data frame `genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
 }
 \source{
-<https://fishtreeoflife.org/downloads/actinopt_full.trees.xz>
+https://fishtreeoflife.org/downloads/actinopt_full.trees.xz
 }
 \usage{
 tree_fish_32k_n100

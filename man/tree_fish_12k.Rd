@@ -8,7 +8,7 @@
 A phylogeny with class "phylo". It is also a list. Compare with a normal phylo object, it has another data frame `tree_fish_12k$genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
 }
 \source{
-<https://fishtreeoflife.org/downloads/actinopt_12k_treePL.tre.xz>
+https://fishtreeoflife.org/downloads/actinopt_12k_treePL.tre.xz
 }
 \usage{
 tree_fish_12k

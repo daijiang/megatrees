@@ -4,11 +4,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `megatrees` is to provide a collection of subset of existing mega-phylogenies (mega-trees, hence the package name) for ecological studies. For common community ecology analyses, results derived from such phylogenies are robust (Li et al. 2019). This package will save us time to repeat the effort to download and randomly select a small subset of posterior phylogenies. Previous studies suggested that sampling 50-100 trees is sufficient to capture the uncertainty of phylogenetic spaces (Baiser et al. 2018; Li et al. 2019; Nakagawa et al. 2019). Therefore, for taxonomic groups with multiple posterior distribution of phylogenies, a randomly selected subset of 100 phylogenies were provided here, which can be relatively large in size (e.g., 45 Mb for the 100 phylogenies of 32k fishes). The larger than normal size made it hard to host this package on CRAN. 
+The goal of `megatrees` is to provide a collection of subset of existing mega-phylogenies (mega-trees, hence the package name) for ecological studies. For common community ecology analyses, results derived from such phylogenies are robust (Li et al. 2019). This package will save us time to repeat the effort to download and randomly select a small subset of posterior phylogenies (for some taxonomic groups). Previous studies suggested that sampling 50-100 trees is sufficient to capture the uncertainty of phylogenetic spaces (Baiser et al. 2018; Li et al. 2019; Nakagawa et al. 2019). Therefore, for taxonomic groups with multiple posterior distribution of phylogenies, a randomly selected subset of 100 phylogenies were provided here, which can be relatively large in size (e.g., 45 Mb for the 100 phylogenies of 32k fishes). The larger than normal size made it hard to host this package on CRAN. 
 
 ## Installation
 
-You can install the development version of megatrees like so:
+You can install the development version of megatrees like so (Note that it may take a while to install given its large data size (~115 Mb)):
 
 ``` r
 if(!require("remotes")) install.packages("remotes")

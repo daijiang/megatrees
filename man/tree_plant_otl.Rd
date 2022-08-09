@@ -8,7 +8,7 @@
 A phylogeny with class "phylo". It is also a list. Compare with a normal phylo object, it has another data frame `tree_plant_otl$genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
 }
 \source{
-<https://github.com/jinyizju/V.PhyloMaker/tree/master/data>
+https://github.com/jinyizju/V.PhyloMaker/tree/master/data
 }
 \usage{
 tree_plant_otl
