@@ -43,7 +43,14 @@ tree_fish_32k_n100 = parallel::mclapply(tree_fish_32k_n100, function(x){
 }, mc.cores = 50)
 tree_fish_32k_n100[[2]]$genus_family_root
 class(tree_fish_32k_n100) = c(class(tree_fish_32k_n100), "multiPhylo")
-usethis::use_data(tree_fish_32k_n100, overwrite = T, compress = "xz")
+
+# too large to host megatrees online, reduce to 50 trees?
+set.seed(123)
+n_keep = sample(x = 1:length(tree_fish_32k_n100), size = 50, replace = FALSE)
+tree_fish_32k_n50 = tree_fish_32k_n100[n_keep]
+# usethis::use_data(tree_fish_32k_n100, overwrite = T, compress = "xz")
+usethis::use_data(tree_fish_32k_n50, overwrite = T, compress = "xz")
+
 
 # birds vertlife ----
 dir.create("bird_trees")
