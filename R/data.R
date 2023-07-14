@@ -90,4 +90,19 @@
 #'
 "tree_shark_ray_n100"
 
+#' 100 randomly selected Mega-tree of Bees from Bee Tree of Life
+#'
+#' @format A phylogeny with class "multiPhylo". It is also a list. Compare with a normal phylo object, each phylogeny has another data frame `genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
+#' @source http://beetreeoflife.org
+#' @references Henríquez-Piskulich, P.; Hugall, A.F.; Stuart-Fox; D. 2023. A supermatrix phylogeny of the world’s bees (Hymenoptera: Anthophila). bioRxiv 2023.06.16.545281. doi.org/10.1101/2023.06.16.545281.
+#'
+"tree_bee_n100"
+
+#' The Maximum Likely Mega-tree of Bees from Bee Tree of Life
+#'
+#' @format A maximum likely phylogeny with class "phylo". Compare with a normal phylo object, this phylogeny has another data frame `genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
+#' @source http://beetreeoflife.org
+#' @references Henríquez-Piskulich, P.; Hugall, A.F.; Stuart-Fox; D. 2023. A supermatrix phylogeny of the world’s bees (Hymenoptera: Anthophila). bioRxiv 2023.06.16.545281. doi.org/10.1101/2023.06.16.545281.
+#'
+"tree_bee"
 

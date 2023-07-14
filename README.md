@@ -20,6 +20,8 @@ remotes::install_github("daijiang/megatrees")
 | Taxon                    | # of species | # of trees | R object                     | Reference            |
 |--------------------------|--------------|------------|------------------------------|----------------------|
 | Amphibian                | 7238         | 100        | `tree_amphibian_n100`        | Jetz and Pyron 2018  |
+| Bee                      | 4651         | 1          | `tree_bee`                   | Henríquez-Piskulich et al. 2023  |
+|                          | 4651         | 100        | `tree_bee_n100`                   | Henríquez-Piskulich et al. 2023  |
 | Bird                     | 9993         | 100        | `tree_bird_n100`             | Jetz et al. 2012     |
 | Fish                     | 11638        | 1          | `tree_fish_12k`              | Rabosky et al. 2018  |
 |                          | 31516        | 50         | `tree_fish_32k_n50`          | Rabosky et al. 2018  |
@@ -40,6 +42,8 @@ Everyone is welcome to add new existing mega-trees here by sending a pull reques
 Baiser, B., Valle, D., Zelazny, Z., & Burleigh, J. G. (2018). Non‐random patterns of invasion and extinction reduce phylogenetic diversity in island bird assemblages. Ecography, 41(2), 361-374.
 
 Faurby, S., Davis, M., Pedersen, R. Ø., Schowanek, S. D., Antonelli, A., & Svenning, J. C. (2018). PHYLACINE 1.2: The phylogenetic atlas of mammal macroecology. Ecology, 99(11), 2626-2626.
+
+Henríquez-Piskulich, P.; Hugall, A.F.; Stuart-Fox; D. (2023). A supermatrix phylogeny of the world’s bees (Hymenoptera: Anthophila). bioRxiv 2023.06.16.545281. doi.org/10.1101/2023.06.16.545281.
 
 Jetz, W., & Pyron, R. A. (2018). The interplay of past diversification and evolutionary isolation with present imperilment across the amphibian tree of life. Nature ecology & evolution, 2(5), 850-858.
 
