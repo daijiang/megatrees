@@ -234,20 +234,57 @@ file.remove("shark_10.cal.tree.nex")
 
 
 # butterfly ----
-# source 1
-# https://www.biorxiv.org/content/10.1101/2022.05.17.491528v2.full.pdf
+# https://www.nature.com/articles/s41559-023-02041-9#MOESM1
+# download its supplementary data
+# https://springernature.figshare.com/articles/dataset/A_global_phylogeny_of_butterflies_reveals_their_evolutionary_history_ancestral_host_plants_and_biogeographic_origins/21774899?file=39124943
 
-# source 2
-# https://zenodo.org/record/5112559#.YvKF8y-B1qs
-# download Espeland_et_al_Dated_tree_Magallon_2015_root_calibration.tre
-xfun::download_file("https://zenodo.org/record/5112559/files/Espeland_et_al_Dated_tree_Magallon_2015_root_calibration.tre?download=1")
-xb = readLines("Espeland_et_al_Dated_tree_Magallon_2015_root_calibration.tre")
-xb[4] = sub("UTREE", "TREE", xb[4])
-tempf = tempfile()
-cat(paste(xb, collapse = "\n"), file = tempf)
-tree_butterfly = ape::read.nexus(tempf) # 195 tips
-plot(tree_butterfly, cex = 0.5)
-tree_butterfly$tip.label
-unlink(tempf)
+x = read.nexus("~/Downloads/Data.S24.RevBayes_Papilionoidea_BDS_rates_MAP2.tre")
+x
+plot(x, show.tip.label = F)
+x$tip.label[1:100]
+
+x_= str_count(x$tip.label, "_")
+table(x_)
+x$tip.label[which(x_ == 9)]
+x$tip.label[which(x_ == 8)]
+xx = x$tip.label[which(x_ == 7)]
+
+x$tip.label = str_replace(x$tip.label, "__", "_")
+x$tip.label = str_replace(x$tip.label, "_mulinzii_mulinzii", "_mulinzii")
+x$tip.label = str_remove_all(x$tip.label, "'")
+x$tip.label = str_remove_all(x$tip.label, "[.]$")
+x$tip.label = str_remove(x$tip.label, "_X_ME$|_ME$")
+
+xx = tibble(xx = x$tip.label) |>
+  separate(xx, c("x1", "x2", "family", "subfamily", "tribe", "genus", "species", "subspecies"),
+           remove = F)
+
+drop_na(xx, subspecies) # |> View()
+
+xx = mutate(xx,
+            species = ifelse(species == "c", paste(species, subspecies, sep = "-"), species),
+            sp = paste(genus, species, sep = "_"))
+n_distinct(xx$sp)
+spd = xx$sp[which(duplicated(xx$sp))]
+filter(xx, sp %in% spd) # |> View()
+# remove some of the duplicated tips
+spd2 = filter(xx, sp %in% spd)
+tip_to_rm = group_by(spd2, sp) |>
+  slice_head(n = 1) |>
+  pull(xx)
+x = drop.tip(x, tip_to_rm)
+
+x$tip.label = left_join(tibble(xx = x$tip.label), xx, by = "xx")$sp
+any(duplicated(x$tip.label))
+plot(x, show.tip.label = F, type = "fan")
+
+classification_butterfly = dplyr::select(xx, genus, family) |>
+  distinct()
+
+x2 = rtrees::add_root_info(x, classification = classification_butterfly)
+x2$genus_family_root
+tree_butterfly = x2
+
+usethis::use_data(tree_butterfly, overwrite = T, compress = "xz")
 
 

@@ -1,7 +1,7 @@
 Package: megatrees
 Type: Package
 Title: Subsets of randomly selected phylogenies from existing mega-phylogenies
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     c(person(given = "Daijiang",
              family = "Li",
@@ -31,4 +31,4 @@ Remotes:
 Depends: 
     R (>= 2.10)
 Config/testthat/edition: 3
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1
