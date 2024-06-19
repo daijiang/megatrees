@@ -43,7 +43,14 @@ tree_fish_32k_n100 = parallel::mclapply(tree_fish_32k_n100, function(x){
 }, mc.cores = 50)
 tree_fish_32k_n100[[2]]$genus_family_root
 class(tree_fish_32k_n100) = c(class(tree_fish_32k_n100), "multiPhylo")
-usethis::use_data(tree_fish_32k_n100, overwrite = T, compress = "xz")
+
+# too large to host megatrees online, reduce to 50 trees?
+set.seed(123)
+n_keep = sample(x = 1:length(tree_fish_32k_n100), size = 50, replace = FALSE)
+tree_fish_32k_n50 = tree_fish_32k_n100[n_keep]
+# usethis::use_data(tree_fish_32k_n100, overwrite = T, compress = "xz")
+usethis::use_data(tree_fish_32k_n50, overwrite = T, compress = "xz")
+
 
 # birds vertlife ----
 dir.create("bird_trees")
@@ -287,4 +294,28 @@ tree_butterfly = x2
 
 usethis::use_data(tree_butterfly, overwrite = T, compress = "xz")
 
+# bees -----
+"http://beetreeoflife.org/downloads/files/BEE_IQTufbs_mat6b_tplo_1001bin.zip"
+"http://beetreeoflife.org/downloads/files/BEE_taxonomic_database.xlsx"
+
+bees = read.tree("~/Downloads/BEE_IQTufbs_mat6b_tplo_1001bin.nwk")
+plot(bees[[1]], type = "fan", show.tip.label = F)
+tree_bee = bees[[1]]
+
+bees_class = filter(rtrees::classifications, taxon == "bee")
+
+all(unique(str_extract(tree_bee$tip.label, "^[^_]*")) %in% bees_class$genus)
+
+tree_bee = rtrees::add_root_info(tree_bee, bees_class)
+usethis::use_data(tree_bee, overwrite = T, compress = "xz")
+
+set.seed(2022)
+tree_bee_n100 = bees[sample(2:length(bees), 100)]
+tree_bee_n100 = parallel::mclapply(tree_bee_n100, function(x){
+  rtrees::add_root_info(x, bees_class)
+}, mc.cores = 10)
+class(tree_bee_n100) = c(class(tree_bee_n100), "multiPhylo")
+tree_bee_n100[[1]]$genus_family_root
+
+usethis::use_data(tree_bee_n100, overwrite = T, compress = "xz")
 
