@@ -28,7 +28,7 @@ remotes::install_github("daijiang/megatrees")
 |                          | 31516        | 50         | `tree_fish_32k_n50`          | Rabosky et al. 2018  |
 | Mammal                   | 5831         | 100        | `tree_mammal_n100_phylacine` | Faurby et al. 2018   |
 |                          | 5911         | 100        | `tree_mammal_n100_vertlife`  | Upham et al. 2019    |
-| Plant                    | 74531        | 1          | `tree_plant_otl`             | Brown and Smith 2018 |
+| Plant                    | 74531        | 1          | `tree_plant_otl`             | Smith and Brown 2018 |
 | Reptile (Squamate)       | 9755         | 100        | `tree_reptile_n100`          | Tonini et al. 2016   |
 | Shark, Ray, and Chimaera | 1192         | 100        | `tree_shark_ray_n100`        | Stein et al. 2018    |
 
