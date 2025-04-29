@@ -94,6 +94,14 @@ system("rm -R bird_trees")
 
 usethis::use_data(tree_bird_n100, overwrite = T, compress = "xz")
 
+# bird McTavish tree --------
+tree_bird_McTavish_v1.4_summary = read.nexus("https://raw.githubusercontent.com/McTavishLab/AvesData/refs/heads/main/Tree_versions/Aves_1.4/Clements2023/summary_dated_clements.nex")
+# plot(tree_bird_McTavish_v1.4_summary, type = "fan", show.tip.label = F)
+n_distinct(filter(rtrees::classifications, taxon == "bird")$genus)
+tree_bird_McTavish_v1.4_summary2 = rtrees::add_root_info(tree_bird_McTavish_v1.4_summary, dplyr::filter(rtrees::classifications, taxon == "bird"))
+tree_bird_McTavish = tree_bird_McTavish_v1.4_summary2
+usethis::use_data(tree_bird_McTavish, overwrite = T, compress = "xz")
+
 # mammal vertlife ----
 xfun::download_file("https://data.vertlife.org/mammaltree/Completed_5911sp_topoCons_FBDasZhouEtAl.zip",
                     output = "mammal_Completed_5911sp_topoCons_FBDasZhouEtAl.zip")

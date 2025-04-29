@@ -24,6 +24,7 @@ remotes::install_github("daijiang/megatrees")
 |                          | 4651         | 100        | `tree_bee_n100`              | Henríquez-Piskulich et al. 2023 |
 | Butterfly                | 2244         | 1          | `tree_butterfly`             | Kawahara et al. 2023 |
 | Bird                     | 9993         | 100        | `tree_bird_n100`             | Jetz et al. 2012     |
+|                          | 11017        | 1          | `tree_bird_McTavish`         | McTavish et al. 2025     |
 | Fish                     | 11638        | 1          | `tree_fish_12k`              | Rabosky et al. 2018  |
 |                          | 31516        | 50         | `tree_fish_32k_n50`          | Rabosky et al. 2018  |
 | Mammal                   | 5831         | 100        | `tree_mammal_n100_phylacine` | Faurby et al. 2018   |
