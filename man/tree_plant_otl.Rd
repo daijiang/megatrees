@@ -14,7 +14,7 @@ https://github.com/jinyizju/V.PhyloMaker/tree/master/data
 tree_plant_otl
 }
 \description{
-This tree was based on Brown and Smith (2018), which in turn was based on the Open Tree of Life.
+This tree was based on Smith and Brown (2018), which in turn was based on the Open Tree of Life.
 It was copied from `V.PhyloMaker::GBOTB.extended`. After then, node labels were added for empty ones.
 }
 \references{
