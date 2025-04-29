@@ -26,6 +26,9 @@ test_that("All genus in classification?", {
   expect_true(all(get_genus(tree_bird_n100[[sample(1:100, 1)]]$tip.label) %in%
                     dplyr::filter(rtrees::classifications, taxon == "bird")$genus))
 
+  expect_true(all(get_genus(tree_bird_McTavish$tip.label) %in%
+                    dplyr::filter(rtrees::classifications, taxon == "bird")$genus))
+
   expect_true(all(get_genus(tree_fish_32k_n50[[sample(1:50, 1)]]$tip.label) %in%
                     dplyr::filter(rtrees::classifications, taxon == "fish")$genus))
 
