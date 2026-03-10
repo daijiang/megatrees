@@ -45,10 +45,10 @@
 
 #' The summary tree by McTavish et al. 2025 PNAS
 #'
-#' This is the [summary tree v1.4 by McTavish et al. 2025](https://github.com/McTavishLab/AvesData/blob/main/Tree_versions/Aves_1.4/Clements2023/summary_dated_clements.nex). It used the taxonomy of eBird.
+#' This is the [summary tree v1.6 by McTavish et al. 2025](https://github.com/McTavishLab/AvesData/blob/main/Tree_versions/Aves_1.6/Clements2025/summary_dated_clements.nex). It used the taxonomy of eBird (Clements 2025).
 #'
 #' @format A phylogeny with class 'phylo'. Compare with a normal phylo object, each phylogeny has another data frame `genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
-#' @source https://github.com/McTavishLab/AvesData/blob/main/Tree_versions/Aves_1.4/Clements2023/summary_dated_clements.nex
+#' @source https://github.com/McTavishLab/AvesData/blob/main/Tree_versions/Aves_1.6/Clements2025/summary_dated_clements.nex
 #' @references E.J. McTavish,J.A. Gerbracht,M.T. Holder,M.J. Iliff,D. Lepage,P.C. Rasmussen,B.D. Redelings,L.L. Sánchez Reyes,& E.T. Miller,  A complete and dynamic tree of birds, Proc. Natl. Acad. Sci. U.S.A. 122 (18) e2409658122, https://doi.org/10.1073/pnas.2409658122 (2025).
 "tree_bird_McTavish"
 
