@@ -8,7 +8,7 @@ The goal of `megatrees` is to provide a collection of subset of existing mega-ph
 
 ## Installation
 
-You can install the development version of megatrees like so (Note that it may take a while to install given its large data size (~115 Mb)):
+You can install the development version of megatrees from GitHub:
 
 ``` r
 if(!require("remotes")) install.packages("remotes")
@@ -17,21 +17,48 @@ remotes::install_github("daijiang/megatrees")
 
 ## List of phylogenies available
 
-| Taxon                    | # of species | # of trees | R object                     | Reference            |
-|--------------------------|--------------|------------|------------------------------|----------------------|
-| Amphibian                | 7238         | 100        | `tree_amphibian_n100`        | Jetz and Pyron 2018  |
-| Bee                      | 4651         | 1          | `tree_bee`                   | Henríquez-Piskulich et al. 2023 |
-|                          | 4651         | 100        | `tree_bee_n100`              | Henríquez-Piskulich et al. 2023 |
-| Butterfly                | 2244         | 1          | `tree_butterfly`             | Kawahara et al. 2023 |
-| Bird                     | 9993         | 100        | `tree_bird_n100`             | Jetz et al. 2012     |
-|                          | 11017        | 1          | `tree_bird_McTavish`         | McTavish et al. 2025     |
-| Fish                     | 11638        | 1          | `tree_fish_12k`              | Rabosky et al. 2018  |
-|                          | 31516        | 50         | `tree_fish_32k_n50`          | Rabosky et al. 2018  |
-| Mammal                   | 5831         | 100        | `tree_mammal_n100_phylacine` | Faurby et al. 2018   |
-|                          | 5911         | 100        | `tree_mammal_n100_vertlife`  | Upham et al. 2019    |
-| Plant                    | 74531        | 1          | `tree_plant_otl`             | Smith and Brown 2018 |
-| Reptile (Squamate)       | 9755         | 100        | `tree_reptile_n100`          | Tonini et al. 2016   |
-| Shark, Ray, and Chimaera | 1192         | 100        | `tree_shark_ray_n100`        | Stein et al. 2018    |
+Datasets with a single tree are bundled with the package and accessed directly as R objects. Datasets with 50 or 100 posterior trees are large and must be downloaded via their accessor function (marked with `get_*()`).
+
+| Taxon                    | # of species | # of trees | How to access                         | Reference            |
+|--------------------------|--------------|------------|---------------------------------------|----------------------|
+| Amphibian                | 7238         | 100        | `get_tree_amphibian_n100()`           | Jetz and Pyron 2018  |
+| Bee                      | 4651         | 1          | `tree_bee`                            | Henríquez-Piskulich et al. 2023 |
+|                          | 4651         | 100        | `get_tree_bee_n100()`                 | Henríquez-Piskulich et al. 2023 |
+| Butterfly                | 2244         | 1          | `tree_butterfly`                      | Kawahara et al. 2023 |
+| Bird                     | 9993         | 100        | `get_tree_bird_n100()`                | Jetz et al. 2012     |
+|                          | 11017        | 1          | `tree_bird_McTavish`                  | McTavish et al. 2025 |
+| Fish                     | 11638        | 1          | `tree_fish_12k`                       | Rabosky et al. 2018  |
+|                          | 31516        | 50         | `get_tree_fish_32k_n50()`             | Rabosky et al. 2018  |
+| Mammal                   | 5831         | 100        | `get_tree_mammal_n100_phylacine()`    | Faurby et al. 2018   |
+|                          | 5911         | 100        | `get_tree_mammal_n100_vertlife()`     | Upham et al. 2019    |
+| Plant                    | 74531        | 1          | `tree_plant_otl`                      | Smith and Brown 2018 |
+|                          | 123182       | 1          | `tree_plant_Carruthers`               | Carruthers et al. 2026 |
+|                          | 123182       | 100        | `get_tree_plant_n100_Carruthers()`    | Carruthers et al. 2026 |
+| Reptile (Squamate)       | 9755         | 100        | `get_tree_reptile_n100()`             | Tonini et al. 2016   |
+| Shark, Ray, and Chimaera | 1192         | 100        | `get_tree_shark_ray_n100()`           | Stein et al. 2018    |
+
+
+**⚠️ Important update — breaking change:**
+
+Large multi-tree datasets (those with 50 or 100 posterior phylogenies) are **no longer bundled with the package**. They are stored as [GitHub release assets](https://github.com/daijiang/megatrees/releases/tag/large_multiPhylo) and downloaded to a local cache on first use via accessor functions (e.g. `get_tree_bird_n100()`). This also means that we need to have internet access if we need to use those `multiPhylo` objects. The [`piggyback`](https://docs.ropensci.org/piggyback/) package is required for downloading:
+
+``` r
+install.packages("piggyback")
+```
+
+**⚠️ Warning: this change breaks existing code.** If you previously used a `multiPhylo` object directly (e.g. `tree_bird_n100`), that object no longer exists in the package. You must update your code to call the corresponding accessor function and assign the result to a variable:
+
+>
+> ``` r
+> # old (broken)
+> phy <- tree_bird_n100[[1]]
+>
+> # new
+> tree_bird_n100 <- get_tree_bird_n100()
+> phy <- tree_bird_n100[[1]]
+> ```
+>
+> The full list of renamed accessors: `get_tree_amphibian_n100()`, `get_tree_bee_n100()`, `get_tree_bird_n100()`, `get_tree_fish_32k_n50()`, `get_tree_mammal_n100_phylacine()`, `get_tree_mammal_n100_vertlife()`, `get_tree_plant_n100_Carruthers()`, `get_tree_reptile_n100()`, `get_tree_shark_ray_n100()`.
 
 
 ## Contribution

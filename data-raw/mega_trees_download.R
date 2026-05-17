@@ -9,8 +9,73 @@ load(rawConnection(RCurl::getBinaryURL("https://raw.githubusercontent.com/jinyiz
 # usethis::use_data(tree_plant_otl, overwrite = T, compress = "xz")
 # tools::checkRdaFiles("data/tree_plant_otl.rda")
 
-# fish tree of life ----
+# plant Carruthers et al. 2026
+## https://www.biorxiv.org/content/10.64898/2026.01.06.695000v1.full.pdf
+## https://osf.io/9tbha/overview
+xfun::pkg_attach2(c("osfr"))
+project = osfr::osf_retrieve_node("9tbha")
+tree_files = osfr::osf_ls_files(project, n_max = Inf)
+tree_files_to_use = c("best_wcvp.tre_dated", "zipped-dated-wcvp-trees.zip")
+tree_files_to_use = dplyr::filter(tree_files, name %in% tree_files_to_use)
+temp_dir = tempdir() # "/var/folders/yf/p5f5p1314lxdv9w0srx5qxw80000gn/T//RtmpailsRu"
+tree_d = osfr::osf_download(tree_files_to_use, temp_dir, conflicts = "overwrite")
+pt_1 = ape::read.tree(filter(tree_d, name == "best_wcvp.tre_dated")$local_path)
+pt_1_taxon = tibble(tips = pt_1$tip.label) |>
+  mutate(order = str_extract(tips, "^[^_]+"),
+         tips = str_remove(tips, "^[^_]+_"),
+         family = str_extract(tips, "^[^_]+"),
+         tips = str_remove(tips, "^[^_]+_"),
+         genus = str_extract(tips, "^[^_]+"))
+n_distinct(pt_1_taxon$tips) # 123,182
+n_distinct(pt_1_taxon$genus) # 12684
+n_distinct(pt_1_taxon$family) # 515
+filter(rtrees::classifications, taxon == "plant")
+# wcvp_class = select(pt_1_taxon, genus, family) |> distinct() |> mutate(taxon = "plant")
+# anti_join(wcvp_class, filter(rtrees::classifications, taxon == "plant")) |>
+#   write_rds("~/github/rtrees/data-raw/classification_plants_missing_wcvp.rds")
+## to be added in rtrees
+
+pt_1$tip.label = pt_1_taxon$tips
+pt_1_2 = rtrees::add_root_info(pt_1, classification = filter(rtrees::classifications, taxon == "plant"))
+pt_1_2 = readRDS("pt_1_2.rds")
+pt_1_2$genus_family_root |> View()
+tree_plant_Carruthers = pt_1_2
+usethis::use_data(tree_plant_Carruthers, overwrite = T, compress = "xz")
+
+tree_list = unzip(filter(tree_d, name == "zipped-dated-wcvp-trees.zip")$local_path, list = TRUE)$Name
+set.seed(1998)
+trees_to_proc = sample(tree_list, 100) |> sort()
+
+unzip(filter(tree_d, name == "zipped-dated-wcvp-trees.zip")$local_path, files = trees_to_proc,
+      exdir = file.path(temp_dir, "dated-trees"))
+all_bt = list.files(file.path(temp_dir, "dated-trees"), full.names = TRUE)
+ape::read.tree(all_bt[1])
+
+pt_multi = vector("list", length(all_bt))
+names(pt_multi) = basename(all_bt)
+for(i in 1:length(all_bt)) {
+  ti = ape::read.tree(all_bt[i])
+  ti_taxon = tibble(tips = ti$tip.label) |>
+    mutate(order = str_extract(tips, "^[^_]+"),
+           tips = str_remove(tips, "^[^_]+_"),
+           family = str_extract(tips, "^[^_]+"),
+           tips = str_remove(tips, "^[^_]+_"),
+           genus = str_extract(tips, "^[^_]+"))
+  ti$tip.label = ti_taxon$tips
+  ti_2 = add_root_info(ti, classification = filter(rtrees::classifications, taxon == "plant"))
+  pt_multi[[i]] = ti_2
+  cat(i, "out of 100 done /t")
+}
+class(pt_multi) = "multiPhylo"
+saveRDS(pt_multi, "pt_multi.rds")
+tree_plant_n100_Carruthers = readRDS("pt_multi.rds")
+usethis::use_data(tree_plant_n100_Carruthers, overwrite = T, compress = "xz")
+# this file was later manually uploaded to the GitHub repository as a release
+
+
+# fish tree of life ----plt_cls
 # time tree
+fishurl = "https://fishtreeoflife.org/downloads/actinopt_12k_treePL.tre.xz"
 fishurl = "https://fishtreeoflife.org/downloads/actinopt_12k_treePL.tre.xz"
 tempf = tempfile()
 download.file(fishurl, tempf)

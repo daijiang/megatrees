@@ -2,6 +2,16 @@
 .Rproj.user/*
 .Rhistory
 .RData
+.DS_Store
 .Ruserdata
 .positai
 .claude
+data/tree_amphibian_n100.rda
+data/tree_bee_n100.rda
+data/tree_bird_n100.rda
+data/tree_fish_32k_n50.rda
+data/tree_mammal_n100_phylacine.rda
+data/tree_mammal_n100_vertlife.rda
+data/tree_plant_n100_Carruthers.rda
+data/tree_reptile_n100.rda
+data/tree_shark_ray_n100.rda

@@ -1,7 +1,7 @@
 Package: megatrees
 Type: Package
 Title: Subsets of randomly selected phylogenies from existing mega-phylogenies
-Version: 0.1.5
+Version: 1.0.0
 Authors@R: 
     c(person(given = "Daijiang",
              family = "Li",
@@ -18,9 +18,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-Suggests: 
-    ape,
+Suggests:
     parallel,
+    piggyback,
     rtrees,
     testthat (>= 3.0.0),
     tidyverse,
@@ -31,7 +31,8 @@ Suggests:
     remotes
 Remotes:
     daijiang/rtrees
-Depends: 
-    R (>= 3.5)
+Depends:
+    R (>= 3.5),
+    ape
 Config/testthat/edition: 3
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.0.0
