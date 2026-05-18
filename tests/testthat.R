@@ -8,6 +8,5 @@
 
 library(testthat)
 library(megatrees)
-if(!require(rtrees)) remotes::install_github("daijiang/rtrees")
 
 test_check("megatrees")

@@ -1,6 +1,6 @@
 Package: megatrees
 Type: Package
-Title: Subsets of randomly selected phylogenies from existing mega-phylogenies
+Title: Subsets of Randomly Selected Phylogenies from Existing Mega-Phylogenies
 Version: 1.0.0
 Authors@R: 
     c(person(given = "Daijiang",
@@ -10,8 +10,8 @@ Authors@R:
 Maintainer: Daijiang Li <daijianglee@gmail.com>
 Description: There are an increasing number of mega-phylogenies available nowadays,
     with many of them being sets of thousands of posterior distribution phylogenies.
-    For ecological studies, we may need to randomly select many such posterior phylogeneies
-    to conduct analyses. This data package serves this purpose by providing a small number (100)
+    For ecological studies, we may need to randomly select many such posterior phylogenies
+    to conduct analyses. This data package serves this purpose by providing a small number (100 or 50)
     of randomly selected posterior phylogenies (if available) so that we can readily use 
     them for our downstream analyses without repeating the downloading and selecting processes.
 License: MIT + file LICENSE
@@ -19,18 +19,10 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
 Suggests:
-    parallel,
     piggyback,
-    rtrees,
     testthat (>= 3.0.0),
-    tidyverse,
-    usethis,
-    xfun,
     dplyr,
-    stringr,
-    remotes
-Remotes:
-    daijiang/rtrees
+    stringr
 Depends:
     R (>= 3.5),
     ape

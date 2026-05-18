@@ -30,6 +30,7 @@ get_genus <- function(x) {
 }
 
 test_that("All genus in classification?", {
+  skip_if_not_installed("rtrees")
   expect_true(all(get_genus(amp[[sample(1:100, 1)]]$tip.label) %in%
     dplyr::filter(rtrees::classifications, taxon == "amphibian")$genus))
 
