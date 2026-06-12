@@ -1,16 +1,16 @@
-
 skip_on_cran()
+skip_if_not_installed("rtrees")
 
 # Download (or load from cache) all large multi-tree datasets once for the
 # entire test file to avoid redundant network calls across test blocks.
-amp   <- get_tree_amphibian_n100()
-bee   <- get_tree_bee_n100()
-bird  <- get_tree_bird_n100()
-fish  <- get_tree_fish_32k_n50()
+amp <- get_tree_amphibian_n100()
+bee <- get_tree_bee_n100()
+bird <- get_tree_bird_n100()
+fish <- get_tree_fish_32k_n50()
 mam_p <- get_tree_mammal_n100_phylacine()
 mam_v <- get_tree_mammal_n100_vertlife()
 plant <- get_tree_plant_n100_Carruthers()
-rept  <- get_tree_reptile_n100()
+rept <- get_tree_reptile_n100()
 shark <- get_tree_shark_ray_n100()
 
 test_that("All objects with more than one phylogeny should have a class of multiPhylo", {

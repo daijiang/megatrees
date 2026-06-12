@@ -22,7 +22,9 @@ Suggests:
     piggyback,
     testthat (>= 3.0.0),
     dplyr,
-    stringr
+    stringr,
+    rtrees
+Additional_repositories: https://daijiang.r-universe.dev
 Depends:
     R (>= 3.5),
     ape
