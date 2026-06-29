@@ -1,7 +1,7 @@
 Package: megatrees
 Type: Package
 Title: Subsets of Randomly Selected Phylogenies from Existing Mega-Phylogenies
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     c(person(given = "Daijiang",
              family = "Li",
