@@ -17,18 +17,22 @@ project = osfr::osf_retrieve_node("9tbha")
 tree_files = osfr::osf_ls_files(project, n_max = Inf)
 tree_files_to_use = c("best_wcvp.tre_dated", "zipped-dated-wcvp-trees.zip")
 tree_files_to_use = dplyr::filter(tree_files, name %in% tree_files_to_use)
-temp_dir = tempdir() # "/var/folders/xb/rf6kx0sn5vl3jxtrxfyl4h3jng1rtb/T//RtmpYaHsVZ"
+temp_dir = "~/Documents" # "/var/folders/xb/rf6kx0sn5vl3jxtrxfyl4h3jng1rtb/T//RtmpYaHsVZ"
 tree_d = osfr::osf_download(tree_files_to_use, temp_dir, conflicts = "overwrite")
 pt_1 = ape::read.tree(filter(tree_d, name == "best_wcvp.tre_dated")$local_path)
-## Tip labels are Order_Family_Genus_species. Parse strictly: a label with the
-## wrong number of parts should error, not silently yield a garbage genus
-## (str_remove() is a no-op once the label runs out of underscores).
+## Tip labels are Order_Family_Genus_species. Parse strictly: a label with too
+## few parts should error, not silently yield a garbage genus (str_remove() is
+## a no-op once the label runs out of underscores). The bootstrap trees (unlike
+## best_wcvp.tre_dated) also carry 39 tips with MORE than 4 parts -- infraspecific
+## ranks and nomenclatural notes, e.g. Saxifragales_Crassulaceae_Echeveria_bella_f._major,
+## Rosales_Urticaceae_Pilea_pelonae_nom._nud., Rosales_Moraceae_Ficus_variegata_Blume_1825.
+## Merge the surplus into `species` so is_binomial flags them and they get dropped.
 parse_carruthers_tips = function(tip_label) {
   tibble(tip_label = tip_label) |>
     tidyr::separate_wider_delim(
       tip_label, delim = "_",
       names = c("order", "family", "genus", "species"),
-      too_few = "error", too_many = "error", cols_remove = FALSE
+      too_few = "error", too_many = "merge", cols_remove = FALSE
     ) |>
     # order/family are the literal string "NA" for 47 tips, not a real NA
     mutate(across(c(order, family), \(x) na_if(x, "NA")),
@@ -41,7 +45,6 @@ n_distinct(pt_1_taxon$tips) # 123,182 ---> 117,933
 n_distinct(pt_1_taxon$genus) # 12,684 ---> 12,236
 n_distinct(pt_1_taxon$family) # 515 ---> 475
 count(pt_1_taxon, is_binomial) # false 9
-filter(pt_1_taxon, !is_binomial) # 9 tips: Flagellaria_sp., Hypericum_×, Taraxacum_sect., ...)
 # saveRDS(pt_1_taxon, "carruthers_taxonomy.rds")
 
 ## source-data problems to clean before using the tree
@@ -55,6 +58,8 @@ pt_1 = ape::drop.tip(pt_1, idx_drop)
 pt_1_taxon = parse_carruthers_tips(pt_1$tip.label) # re-parse: drop.tip reorders tips
 stopifnot(!anyDuplicated(pt_1_taxon$tips), all(pt_1_taxon$is_binomial))
 pt_1$tip.label = pt_1_taxon$tips
+# 117,924 tips
+n_distinct(pt_1$tip.label)
 
 ## Compare genus -> family against rtrees, but do NOT append the differences:
 ## all 12,236 Carruthers genera are already in rtrees::classifications, and the
@@ -68,11 +73,20 @@ count(wcvp_class, genus) |> filter(n > 1) # 50 genera with >1 family in the sour
 setdiff(wcvp_class$genus, plt_cls$genus) # character(0): nothing is actually missing
 anti_join(wcvp_class, plt_cls, by = c("genus", "family", "taxon")) # circumscription conflicts only
 pt_1_2 = rtrees::add_root_info(pt_1, classification = filter(rtrees::classifications, taxon == "plant"))
-pt_1_2 = readRDS("pt_1_2.rds")
 pt_1_2$genus_family_root |> View()
 tree_plant_Carruthers = pt_1_2
 usethis::use_data(tree_plant_Carruthers, overwrite = T, compress = "xz")
 
+## NOTE (version mismatch, not resolved here): the two OSF files are not the same
+## version of the tree. zipped-dated-wcvp-trees.zip was last updated Dec 2025,
+## while best_wcvp.tre_dated was updated June 2026. The bootstrap trees have
+## 123,182 tips (still with the messy labels handled above); the current best tree
+## has 117,934 already-clean tips. Comparing binomials after cleaning: 8,898 species
+## are in the best tree but not the bootstrap trees, and 14,113 are in the bootstrap
+## trees but not the best tree (e.g. Ophioglossum_vulgatum, Botrychium_virginianum).
+## So tree_plant_n100_Carruthers is NOT a matched uncertainty set for
+## tree_plant_Carruthers. We are deliberately not regenerating the 100 trees this
+## round -- revisit when the zip is rebuilt against the June 2026 tree.
 tree_list = unzip(filter(tree_d, name == "zipped-dated-wcvp-trees.zip")$local_path, list = TRUE)$Name
 set.seed(1998)
 trees_to_proc = sample(tree_list, 100) |> sort()
