@@ -26,6 +26,8 @@ test_that("All objects with more than one phylogeny should have a class of multi
 })
 
 get_genus <- function(x) {
+  # intergeneric hybrids are labelled "X_Genus_species"; use the real genus
+  x <- sub("^X_", "", x)
   unique(stringr::str_extract(x, "^[^_]+"))
 }
 

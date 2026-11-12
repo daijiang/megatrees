@@ -4,13 +4,15 @@
 \alias{get_tree_plant_n100_Carruthers}
 \title{Get 100 randomly selected plant mega-trees (Carruthers et al.)}
 \source{
-\url{https://www.biorxiv.org/content/10.64898/2026.01.06.695000v1}
+\url{https://doi.org/10.1002/aps3.70092}; trees are archived at \url{https://doi.org/10.17605/OSF.IO/9TBHA}
 }
 \usage{
 get_tree_plant_n100_Carruthers(force = FALSE)
 }
 \arguments{
-\item{force}{Logical. Re-download even if a local cache exists. Default FALSE.}
+\item{force}{Logical. Re-download even if a local cache exists. Default FALSE.
+Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+release is newer (checked for this file only; skipped if offline).}
 }
 \value{
 A \code{multiPhylo} object. Each phylogeny also has a data frame
@@ -19,13 +21,12 @@ A \code{multiPhylo} object. Each phylogeny also has a data frame
 }
 \description{
 This tree was based on Carruthers et al. (2026), which in turn was an update
-of the Smith and Brown (2018). We randomly selected 100 plant mega-trees from this dataset.
+of the Smith and Brown (2018). We randomly selected 100 plant mega-trees from the 1000 bootstrap trees. They have the same 117,924 species as \code{tree_plant_Carruthers}, so they serve as its uncertainty set.
 Because of the large file size (~135 MB), this dataset is not bundled with
 the package and is downloaded and cached locally on first use.
 }
 \references{
-Carruthers et al., (2026). A large phylogenetic tree for
-  euphyllophytes. bioRxiv.
+Carruthers, T., Baker, W. J., Eiserhardt, W. L., Forest, F., Zuntini, A. R., Miller, J. T., & Smith, S. A. (2026). A large phylogenetic tree for euphyllophytes. Applications in Plant Sciences, e70092. https://doi.org/10.1002/aps3.70092
 }
 \seealso{
 \code{\link{tree_plant_Carruthers}}

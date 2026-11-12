@@ -32,8 +32,8 @@ Datasets with a single tree are bundled with the package and accessed directly a
 | Mammal                   | 5831         | 100        | `get_tree_mammal_n100_phylacine()`    | Faurby et al. 2018   |
 |                          | 5911         | 100        | `get_tree_mammal_n100_vertlife()`     | Upham et al. 2019    |
 | Plant                    | 74531        | 1          | `tree_plant_otl`                      | Smith and Brown 2018 |
-|                          | 123182       | 1          | `tree_plant_Carruthers`               | Carruthers et al. 2026 |
-|                          | 123182       | 100        | `get_tree_plant_n100_Carruthers()`    | Carruthers et al. 2026 |
+|                          | 117924       | 1          | `tree_plant_Carruthers`               | Carruthers et al. 2026 |
+|                          | 117924       | 100        | `get_tree_plant_n100_Carruthers()`    | Carruthers et al. 2026 |
 | Reptile (Squamate)       | 9755         | 100        | `get_tree_reptile_n100()`             | Tonini et al. 2016   |
 | Shark, Ray, and Chimaera | 1192         | 100        | `get_tree_shark_ray_n100()`           | Stein et al. 2018    |
 

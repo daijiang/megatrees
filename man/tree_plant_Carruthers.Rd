@@ -8,15 +8,15 @@
 A phylogeny with class "phylo". It is also a list. Compare with a normal phylo object, it has another data frame `tree_plant_Carruthers$genus_family_root`, which provides the root nodes information for every unique genus and family in the phylogeny. Such information can be used to insert new tips onto the phylogeny later.
 }
 \source{
-https://www.biorxiv.org/content/10.64898/2026.01.06.695000v1
+https://doi.org/10.1002/aps3.70092; trees are archived at https://doi.org/10.17605/OSF.IO/9TBHA
 }
 \usage{
 tree_plant_Carruthers
 }
 \description{
-This tree was based on Carruthers et al. (2026), which in turn was an update of the Smith and Brown (2018).
+This tree was based on Carruthers et al. (2026), which in turn was an update of the Smith and Brown (2018). It is the best (maximum likelihood) dated tree from the September 2026 release, cleaned to 117,924 binomial species tips.
 }
 \references{
-Carruthers et al., (2026). A large phylogenetic tree for euphyllophytes. bioRxiv.
+Carruthers, T., Baker, W. J., Eiserhardt, W. L., Forest, F., Zuntini, A. R., Miller, J. T., & Smith, S. A. (2026). A large phylogenetic tree for euphyllophytes. Applications in Plant Sciences, e70092. https://doi.org/10.1002/aps3.70092
 }
 \keyword{datasets}

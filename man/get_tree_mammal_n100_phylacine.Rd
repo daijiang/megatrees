@@ -10,7 +10,9 @@
 get_tree_mammal_n100_phylacine(force = FALSE)
 }
 \arguments{
-\item{force}{Logical. Re-download even if a local cache exists. Default FALSE.}
+\item{force}{Logical. Re-download even if a local cache exists. Default FALSE.
+Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+release is newer (checked for this file only; skipped if offline).}
 }
 \value{
 A \code{multiPhylo} object. Each phylogeny also has a data frame

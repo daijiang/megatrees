@@ -4,6 +4,18 @@ NULL
 # Accessor functions for large multi-tree datasets stored as GitHub release
 # assets. Each function downloads the file on first use and caches it locally.
 
+# Is the cached copy of `filename` older than the asset on the GitHub release?
+# Only this one file is checked (and re-downloaded if needed). Any failure
+# (offline, API rate limit, ...) returns FALSE so the existing cache is used.
+.pb_cache_is_stale <- function(local_file, filename, repo, tag) {
+  tryCatch({
+    assets <- suppressMessages(piggyback::pb_list(repo = repo, tag = tag))
+    remote <- assets$timestamp[assets$file_name == filename]
+    if (length(remote) != 1L || is.na(remote)) return(FALSE)
+    isTRUE(file.mtime(local_file) < remote)
+  }, error = function(e) FALSE, warning = function(w) FALSE)
+}
+
 .pb_download_cached <- function(filename, size_hint, force) {
   if (!requireNamespace("piggyback", quietly = TRUE)) {
     stop(
@@ -12,15 +24,20 @@ NULL
       call. = FALSE
     )
   }
+  repo <- "daijiang/megatrees"
+  tag <- "large_multiPhylo"
   cache_dir <- tools::R_user_dir("megatrees", which = "data")
   local_file <- file.path(cache_dir, filename)
-  if (!file.exists(local_file) || force) {
+  cached <- file.exists(local_file)
+  stale <- cached && !force && .pb_cache_is_stale(local_file, filename, repo, tag)
+  if (!cached || force || stale) {
+    if (stale) message(filename, " has been updated on the GitHub release.")
     message("Downloading ", filename, " (", size_hint, ") to local cache...")
     dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
     piggyback::pb_download(
       file     = filename,
-      repo     = "daijiang/megatrees",
-      tag      = "large_multiPhylo",
+      repo     = repo,
+      tag      = tag,
       dest     = cache_dir,
       overwrite = TRUE
     )
@@ -38,6 +55,8 @@ NULL
 #' bundled with the package and is downloaded and cached locally on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, usable for inserting new tips onto the phylogeny.
@@ -57,6 +76,8 @@ get_tree_amphibian_n100 <- function(force = FALSE) {
 #' the package and is downloaded and cached locally on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, usable for inserting new tips onto the phylogeny.
@@ -79,6 +100,8 @@ get_tree_bee_n100 <- function(force = FALSE) {
 #' locally on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, usable for inserting new tips onto the phylogeny.
@@ -102,6 +125,8 @@ get_tree_bird_n100 <- function(force = FALSE) {
 #' is downloaded and cached locally on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, usable for inserting new tips onto the phylogeny.
@@ -124,6 +149,8 @@ get_tree_fish_32k_n50 <- function(force = FALSE) {
 #' on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, usable for inserting new tips onto the phylogeny.
@@ -146,6 +173,8 @@ get_tree_mammal_n100_phylacine <- function(force = FALSE) {
 #' package and is downloaded and cached locally on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, usable for inserting new tips onto the phylogeny.
@@ -166,6 +195,8 @@ get_tree_mammal_n100_vertlife <- function(force = FALSE) {
 #' the package and is downloaded and cached locally on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, usable for inserting new tips onto the phylogeny.
@@ -185,6 +216,8 @@ get_tree_reptile_n100 <- function(force = FALSE) {
 #' the package and is downloaded and cached locally on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, usable for inserting new tips onto the phylogeny.
@@ -202,17 +235,18 @@ get_tree_shark_ray_n100 <- function(force = FALSE) {
 #' Get 100 randomly selected plant mega-trees (Carruthers et al.)
 #'
 #' This tree was based on Carruthers et al. (2026), which in turn was an update
-#' of the Smith and Brown (2018). We randomly selected 100 plant mega-trees from this dataset.
+#' of the Smith and Brown (2018). We randomly selected 100 plant mega-trees from the 1000 bootstrap trees. They have the same 117,924 species as \code{tree_plant_Carruthers}, so they serve as its uncertainty set.
 #' Because of the large file size (~135 MB), this dataset is not bundled with
 #' the package and is downloaded and cached locally on first use.
 #'
 #' @param force Logical. Re-download even if a local cache exists. Default FALSE.
+#'   Even when FALSE, the cached file is re-downloaded if the copy on the GitHub
+#'   release is newer (checked for this file only; skipped if offline).
 #' @return A \code{multiPhylo} object. Each phylogeny also has a data frame
 #'   \code{genus_family_root} with root node information for every unique genus
 #'   and family, which can be used to insert new tips onto the phylogeny later.
-#' @source \url{https://www.biorxiv.org/content/10.64898/2026.01.06.695000v1}
-#' @references Carruthers et al., (2026). A large phylogenetic tree for
-#'   euphyllophytes. bioRxiv.
+#' @source \url{https://doi.org/10.1002/aps3.70092}; trees are archived at \url{https://doi.org/10.17605/OSF.IO/9TBHA}
+#' @references Carruthers, T., Baker, W. J., Eiserhardt, W. L., Forest, F., Zuntini, A. R., Miller, J. T., & Smith, S. A. (2026). A large phylogenetic tree for euphyllophytes. Applications in Plant Sciences, e70092. https://doi.org/10.1002/aps3.70092
 #' @seealso \code{\link{tree_plant_Carruthers}}
 #' @export
 get_tree_plant_n100_Carruthers <- function(force = FALSE) {

@@ -10,7 +10,7 @@ load(rawConnection(RCurl::getBinaryURL("https://raw.githubusercontent.com/jinyiz
 # tools::checkRdaFiles("data/tree_plant_otl.rda")
 
 # plant Carruthers et al. 2026
-## https://www.biorxiv.org/content/10.64898/2026.01.06.695000v1.full.pdf
+## https://doi.org/10.1002/aps3.70092
 ## https://osf.io/9tbha/overview
 xfun::pkg_attach2(c("osfr"))
 project = osfr::osf_retrieve_node("9tbha")
@@ -20,6 +20,9 @@ tree_files_to_use = dplyr::filter(tree_files, name %in% tree_files_to_use)
 temp_dir = "~/Documents" # "/var/folders/xb/rf6kx0sn5vl3jxtrxfyl4h3jng1rtb/T//RtmpYaHsVZ"
 tree_d = osfr::osf_download(tree_files_to_use, temp_dir, conflicts = "overwrite")
 pt_1 = ape::read.tree(filter(tree_d, name == "best_wcvp.tre_dated")$local_path)
+## The 2026-09-30 best tree has one placeholder tip, "NA_NA_NA" (no taxon at all),
+## which the strict parser below would reject; drop it first.
+pt_1 = ape::drop.tip(pt_1, which(pt_1$tip.label == "NA_NA_NA"))
 ## Tip labels are Order_Family_Genus_species. Parse strictly: a label with too
 ## few parts should error, not silently yield a garbage genus (str_remove() is
 ## a no-op once the label runs out of underscores). The bootstrap trees (unlike
@@ -77,16 +80,14 @@ pt_1_2$genus_family_root |> View()
 tree_plant_Carruthers = pt_1_2
 usethis::use_data(tree_plant_Carruthers, overwrite = T, compress = "xz")
 
-## NOTE (version mismatch, not resolved here): the two OSF files are not the same
-## version of the tree. zipped-dated-wcvp-trees.zip was last updated Dec 2025,
-## while best_wcvp.tre_dated was updated June 2026. The bootstrap trees have
-## 123,182 tips (still with the messy labels handled above); the current best tree
-## has 117,934 already-clean tips. Comparing binomials after cleaning: 8,898 species
-## are in the best tree but not the bootstrap trees, and 14,113 are in the bootstrap
-## trees but not the best tree (e.g. Ophioglossum_vulgatum, Botrychium_virginianum).
-## So tree_plant_n100_Carruthers is NOT a matched uncertainty set for
-## tree_plant_Carruthers. We are deliberately not regenerating the 100 trees this
-## round -- revisit when the zip is rebuilt against the June 2026 tree.
+## NOTE: both OSF files were re-downloaded after the 2026-09-30 update and are now
+## the same release. All 100 sampled bootstrap trees and the best tree have exactly
+## the same 117,924 binomial tips after cleaning, so tree_plant_n100_Carruthers IS a
+## matched uncertainty set for tree_plant_Carruthers. (Before the update the zip was
+## from Dec 2025 and the best tree from June 2026: 123,182 vs 117,934 tips, with
+## 8,898 species only in the best tree and 14,113 only in the bootstrap trees.)
+## Raw tips: 117,934 (best) with 1 placeholder "NA_NA_NA" tip dropped above; the
+## bootstrap trees have 117,933 each, 9 of them non-binomial and dropped.
 tree_list = unzip(filter(tree_d, name == "zipped-dated-wcvp-trees.zip")$local_path, list = TRUE)$Name
 set.seed(1998)
 trees_to_proc = sample(tree_list, 100) |> sort()
@@ -100,6 +101,7 @@ pt_multi = vector("list", length(all_bt))
 names(pt_multi) = basename(all_bt)
 for(i in 1:length(all_bt)) {
   ti = ape::read.tree(all_bt[i])
+  ti = ape::drop.tip(ti, which(ti$tip.label == "NA_NA_NA"))
   ti_taxon = parse_carruthers_tips(ti$tip.label)
   ti = ape::drop.tip(ti, which(!ti_taxon$is_binomial | duplicated(ti_taxon$tips)))
   ti_taxon = parse_carruthers_tips(ti$tip.label)
